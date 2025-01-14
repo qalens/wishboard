@@ -29,7 +29,7 @@ export default function Login() {
                     return false
                 }).then((success)=>{
                     if (success)
-                        redirect('/contact')
+                        redirect('/home')
                 })
             }}>Login</Button>
         </CardFooter>
