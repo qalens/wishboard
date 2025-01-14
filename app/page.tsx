@@ -1,11 +1,11 @@
-import { getUsers } from "@/db/user";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 export default async function Home() {
-  const users = await getUsers()
-  return (
-    <html>
-      <body>
-        <div>Hello Prisma</div>
-      </body>
-    </html>
-  );
+  const store = await cookies()
+  const session = store.get('session')
+  if (!session){
+    redirect("/login")
+  } else {
+    redirect("/home")
+  }
 }

@@ -1,12 +1,14 @@
-import { createUser, getUsers, login } from "@/db/user"
+import { createUser, getUsers, login } from "@/app/db/user"
 import { NextResponse } from "next/server"
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { createSession } from "@/app/lib/session"
 export async function POST(req: Request) {
-    const { email, password } = await req.json()
+    const { username, password } = await req.json()
     try {
-        const result = await login(email, password)
+        const result = await login(username, password)
         if(result!=null){
-            return Response.json(result)
+            await createSession(result.id)
+            return NextResponse.json({ "message": "login successful" }, { status: 200 })    
         } else {
             return NextResponse.json({ "message": "invalid credentials" }, { status: 400 })    
         }

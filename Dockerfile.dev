@@ -10,6 +10,7 @@ RUN npm install
 COPY prisma ./prisma/
 RUN npx prisma generate
 RUN npm install @prisma/client
+COPY .env.sample ./.env
 # Expose the development server port
 EXPOSE 3000
 

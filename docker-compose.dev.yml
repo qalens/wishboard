@@ -3,6 +3,7 @@ version: '3.8'
 services:
   db:
     image: mongodb/mongodb-atlas-local
+    container_name: db
     environment:
       MONGODB_INITDB_ROOT_USERNAME: root
       MONGODB_INITDB_ROOT_PASSWORD: example
@@ -14,6 +15,7 @@ services:
       - ./data/mongo/db:/data/db
       - ./data/mongo/config:/data/configdb
   mongo-express:
+    container_name: mongo-express
     image: mongo-express:1.0.2-20-alpine3.19
     restart: always
     ports:
