@@ -6,7 +6,6 @@ export async function createBoard(title: string, createdById: string, validTill:
         createdById,
         validTill
     }
-    console.log("Create Board data", data)
     return prisma.board.create({
         data
     })
@@ -30,11 +29,19 @@ export async function getBoard(id: string) {
         where: {
             id
         },
-        include:{
-            createdBy:{
-                select:{
-                    id:true,
-                    username:true,
+        include: {
+            createdBy: {
+                select: {
+                    id: true,
+                    username: true,
+                }
+            },
+            wishes: {
+                select: {
+                    id: true,
+                    salutation: true,
+                    wish: true,
+                    from: true,
                 }
             }
         }
@@ -51,4 +58,15 @@ export async function getAllBoardsForUser(createdById: string) {
         validTill: new Date(board.validTill).toISOString(),
         createdAt: new Date(board.createdAt).toISOString()
     })))
+}
+export async function createWish(boardId: string, salutation: string, wish: string, from: string) {
+    const data = {
+        boardId,
+        salutation,
+        wish,
+        from
+    }
+    return prisma.wish.create({
+        data,
+    })
 }

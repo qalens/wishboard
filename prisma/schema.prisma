@@ -25,6 +25,17 @@ model Board {
   createdBy   User     @relation(fields: [createdById], references: [id])
   createdById String   @db.ObjectId
   title       String
+  wishes      Wish[]
   createdAt   DateTime @default(now())
   validTill   DateTime @db.Date
+}
+
+model Wish {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  board      Board    @relation(fields: [boardId], references: [id])
+  boardId    String   @db.ObjectId
+  salutation String
+  wish       String
+  from       String
+  createdAt  DateTime @default(now())
 }
