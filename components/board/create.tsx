@@ -24,7 +24,7 @@ export default function CreateBoardModal({ isOpen, onOpenChange }: { isOpen: boo
         resolver: zodResolver(formSchema),
         values: {
             title: '',
-            validTill: ''
+            validTill: now(getLocalTimeZone()).add({weeks:1}).toDate().toISOString()
         },
     })
 
