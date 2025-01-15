@@ -16,13 +16,13 @@ export default function CreateBoardModal({ isOpen, onOpenChange }: { isOpen: boo
     const formSchema = z.object({
         title: z.string()
             .min(3, {
-                message: "Name must be at least 2 characters.",
+                message: "Title must be at least 2 characters.",
             }),
         validTill: z.string()
     })
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        values: {
+        defaultValues: {
             title: '',
             validTill: now(getLocalTimeZone()).add({weeks:1}).toDate().toISOString()
         },
