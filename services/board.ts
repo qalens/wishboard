@@ -26,6 +26,15 @@ export async function updateBoard(payload:UpdateBoardPayload){
         throw Error(body.data)
     }
 }
+export async function getSingleBoard(id:string){
+    const resp=await fetch(`${getBaseURL()}/board/${id}`)
+    if (resp.status==200){
+        return (await resp.json())
+    } else {
+        const body =await resp.json()
+        throw Error(body.data)
+    }
+}
 export async function deleteBoard(id:string){
     const resp=await fetch(`${getBaseURL()}/board/${id}`,{
         method:'DELETE'

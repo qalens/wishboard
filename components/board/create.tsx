@@ -9,7 +9,7 @@ import { createBoardAtom } from "@/state/board";
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/modal";
 import { useToast } from "@/hooks/use-toast";
 import { DatePicker } from "@nextui-org/date-picker";
-import {parseDate, getLocalTimeZone} from "@internationalized/date";
+import { getLocalTimeZone, now, parseAbsoluteToLocal, parseDate } from "@internationalized/date";
 export default function CreateBoardModal({ isOpen, onOpenChange }: { isOpen: boolean, onOpenChange: (isOpen: boolean) => void }) {
     const { toast } = useToast()
     const [, createBoard] = useAtom(createBoardAtom)
@@ -24,7 +24,7 @@ export default function CreateBoardModal({ isOpen, onOpenChange }: { isOpen: boo
         resolver: zodResolver(formSchema),
         values: {
             title: '',
-            validTill:''
+            validTill: ''
         },
     })
 
@@ -85,7 +85,9 @@ export default function CreateBoardModal({ isOpen, onOpenChange }: { isOpen: boo
                                     render={({ field }) => (<FormItem>
                                         <FormLabel>Valid Till</FormLabel>
                                         <FormControl>
-                                            <DatePicker value={field.value?parseDate(field.value.split('T')[0]):null} onChange={(newValue)=>{if(newValue)field.onChange(newValue.toDate(Intl.DateTimeFormat().resolvedOptions().timeZone).toISOString())}}/>
+                                            <DatePicker
+                                                hideTimeZone
+                                                value={field.value?parseAbsoluteToLocal(field.value):now(getLocalTimeZone()).add({weeks:1})} onChange={(newValue) => { if (newValue) field.onChange(newValue.toDate().toISOString()) }} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>)} />

@@ -26,5 +26,5 @@ model Board {
   createdById String   @db.ObjectId
   title       String
   createdAt   DateTime @default(now())
-  validTill   DateTime
+  validTill   DateTime @db.Date
 }

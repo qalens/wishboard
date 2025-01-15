@@ -8,7 +8,11 @@ import { useAtom } from "jotai";
 import { updateBoardAtom } from "@/state/board";
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/modal";
 import { useToast } from "@/hooks/use-toast";
-export default function ViewEditBoardModal({ isOpen, onOpenChange, board }: { isOpen: boolean, onOpenChange: (isOpen: boolean) => void, board: { title: string, validTill:string, id: string } }) {
+import { DatePicker } from "@nextui-org/date-picker";
+import {  parseAbsoluteToLocal } from "@internationalized/date";
+import {getLocalTimeZone} from "@internationalized/date";
+
+export default function ViewEditBoardModal({ isOpen, onOpenChange, board }: { isOpen: boolean, onOpenChange: (isOpen: boolean) => void, board: { title: string, validTill: string, id: string } }) {
     const { toast } = useToast()
     const [, updateBoard] = useAtom(updateBoardAtom)
     const formSchema = z.object({
@@ -63,14 +67,14 @@ export default function ViewEditBoardModal({ isOpen, onOpenChange, board }: { is
                     <ModalHeader className="flex flex-col gap-1">Edit board</ModalHeader>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <ModalBody>
+                            <ModalBody>
                                 <FormField
                                     control={form.control}
                                     name="title"
                                     render={({ field }) => (<FormItem>
                                         <FormLabel>Title</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="First Name" {...field} />
+                                            <Input placeholder="Title" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>)} />
@@ -78,9 +82,11 @@ export default function ViewEditBoardModal({ isOpen, onOpenChange, board }: { is
                                     control={form.control}
                                     name="validTill"
                                     render={({ field }) => (<FormItem>
-                                        <FormLabel>ValidTill</FormLabel>
+                                        <FormLabel>Valid Till</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Last Name" {...field} />
+                                            <DatePicker
+                                                hideTimeZone
+                                                value={parseAbsoluteToLocal(field.value)} onChange={(newValue) => { if (newValue) field.onChange(newValue.toDate().toISOString()) }} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>)} />

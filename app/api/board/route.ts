@@ -1,5 +1,6 @@
 import { createBoard } from "@/app/db/board"
 import { getUserFromSession } from "@/app/lib/session"
+import { updateBoard } from "@/services/board"
 import { NextResponse } from "next/server"
 
 export async function POST(req: Request) {
