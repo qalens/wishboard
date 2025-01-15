@@ -9,6 +9,7 @@
 		"lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
 	},
 	"dependencies": {
+		"@fluentui/react-icons": "^2.0.270",
 		"@hookform/resolvers": "^3.10.0",
 		"@nextui-org/button": "2.2.8",
 		"@nextui-org/card": "^2.2.9",
