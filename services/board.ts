@@ -1,8 +1,21 @@
 import { getBaseURL } from "@/lib/helper";
 export type CreateBoardPayload = { title:string,validTill:string }
+export type WishPayload = { salutation:string,from:string,wish:string,boardId:string }
 export type UpdateBoardPayload = { id:string,title?:string,validTill?:string }
 export async function createBoard(payload:CreateBoardPayload){
     const resp=await fetch(`${getBaseURL()}/board`,{
+        method:'POST',
+        body:JSON.stringify(payload)
+    })
+    if (resp.status==201){
+        return (await resp.json())
+    } else {
+        const body =await resp.json()
+        throw Error(body.message+" "+body.data)
+    }
+}
+export async function wish(payload:WishPayload){
+    const resp=await fetch(`${getBaseURL()}/board/${payload.boardId}/wish`,{
         method:'POST',
         body:JSON.stringify(payload)
     })
