@@ -47,6 +47,14 @@ export async function getBoard(id: string) {
         }
     })
 }
+export async function getBoardShallow(id: string) {
+
+    return prisma.board.findFirst({
+        where: {
+            id
+        }
+    })
+}
 export async function getAllBoardsForUser(createdById: string) {
     return prisma.board.findMany({
         where: {
