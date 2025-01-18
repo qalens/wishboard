@@ -83,7 +83,7 @@ export default function Board({ id }: { id: string }) {
                 }
                 
             </div>
-            <Form {...form}>
+            {new Date()<new Date(board.validTill)? <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="w-[300px] border p-2 flex flex-col gap-2 bg-green-500 text-white">
                         <div>Your Wish</div>
                         <FormField
@@ -115,8 +115,6 @@ export default function Board({ id }: { id: string }) {
                             </FormItem>)} />
                         <Button type="submit" color="primary">Wish</Button>
                     </form>
-                </Form>
-
-
+                </Form>:<div>The board is no more available for posting wishes</div>}
         </div> : <></>))
 }
