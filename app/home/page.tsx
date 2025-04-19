@@ -8,7 +8,6 @@ export default async function Board({ searchParams }: { searchParams: Promise<{ 
   const { q } = await searchParams
   const payload = await getUserFromSession()
   const boards = await getAllBoardsForUser(payload.userId as string)
-  console.log("Boards ",boards)
   return (<>
     <Header boards={boards} q={q ? q : ''} />
     <div className="container mx-auto max-w-7xl p-6 flex-grow border my-2 rounded-xl ">

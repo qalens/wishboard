@@ -58,7 +58,7 @@ export default function Header({ q, boards }: { boards: any[], q: string }) {
     <Button color="primary" onPress={onOpen}>Add</Button>
     <Link
       color="danger"
-      href="/logout">Logout</Link>
+      href="/logout" prefetch={false}>Logout</Link>
     <CreateBoardModal isOpen={isOpen} onOpenChange={onOpenChange} />
   </div>
 }

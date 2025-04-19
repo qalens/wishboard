@@ -12,7 +12,6 @@ import {EditRegular} from "@fluentui/react-icons"
 export default function List() {
     const currentBoards = useAtomValue(boardsAtom)
     const [selected, setSelected] = useState<number | null>(null)
-    console.log(JSON.stringify(currentBoards))
     return <ul className="flex flex-col gap-2">
         {Object.entries(currentBoards).map(([_, board]) => <li key={board.id} id={"" + board.id} className={"hover:bg-slate-700 border rounded-xl p-1 " + (selected == board.id ? "bg-slate-700" : "")}>
             <SingleBoard board={board} onEditOpenChange={(isOpen) => {

@@ -4,11 +4,9 @@ import { atom } from "jotai";
 export const boardsAtom = atom<Record<string,any>>({})
 export const setBulkBoardsAtom = atom(null, (get, set, payload: {boards:any[]}) => {
     const boardsVal:Record<number,any>={}
-    console.log("Boards",payload.boards)
     for (const board of payload.boards){
         boardsVal[board.id]=board
     }
-    console.log("Val",boardsVal)
     set(boardsAtom, boardsVal)
 })
 export const createBoardAtom = atom(null, async (get, set, payload: CreateBoardPayload ) => {
