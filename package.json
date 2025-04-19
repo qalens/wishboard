@@ -4,10 +4,9 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev --turbopack",
-		"build": "next build",
+		"build": "prisma generate && next build",
 		"start": "next start",
 		"lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
-		"postinstall": "prisma generate"
 	},
 	"dependencies": {
 		"@fluentui/react-icons": "^2.0.270",
