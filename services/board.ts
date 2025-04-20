@@ -1,5 +1,6 @@
 import { getBaseURL } from "@/lib/helper";
 export type CreateBoardPayload = { title:string,validTill:string }
+export type RemoveBoardPayload = { id:string }
 export type WishPayload = { salutation:string,from:string,wish:string,boardId:string }
 export type UpdateBoardPayload = { id:string,title?:string,validTill?:string }
 export async function createBoard(payload:CreateBoardPayload){
@@ -53,7 +54,7 @@ export async function deleteBoard(id:string){
         method:'DELETE'
     })
     if (resp.status==200){
-        return (await resp.json())
+        return 
     } else {
         const body =await resp.json()
         throw Error(body.data)

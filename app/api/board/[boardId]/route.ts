@@ -1,4 +1,4 @@
-import { getBoard, updateBoard } from "@/app/db/board"
+import { deleteBoard, getBoard, getBoardShallow, updateBoard } from "@/app/db/board"
 import { getUserFromSession } from "@/app/lib/session"
 import { NextResponse } from "next/server"
 
@@ -13,10 +13,25 @@ export async function GET(req: Request,{ params }: { params: Promise<{ boardId: 
     const {boardId} = await params
     try{
         const result = await getBoard(boardId)
-        return NextResponse.json({ message: "got board", data: result }, { status: 200 })
+        if (result!=null)
+            return NextResponse.json({ message: "got board", data: result }, { status: 200 })
+        else
+            throw Error("board not found")
     } catch(e){
         return NextResponse.json({ message: "Not found", data: "board not found" }, { status: 404 })
     }
-    
-    
+}
+export async function DELETE(_: Request, { params }: { params: Promise<{ boardId: string }> }) {
+    const { boardId } = await params
+    try {
+        const board = await getBoardShallow(boardId)
+        if (board != null) {
+            const result = await deleteBoard(boardId)
+            return NextResponse.json({ "message": "your board is deleted", data: result }, { status: 200 })
+        } else {
+            return NextResponse.json({ "message": "Not found", data: "board not found" }, { status: 404 })
+        }
+    } catch (e) {
+        return NextResponse.json({ "message": "bad request" }, { status: 400 })
+    }
 }

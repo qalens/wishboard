@@ -1,14 +1,12 @@
 'use client'
-import { deleteBoardAtom, setBulkBoardsAtom, boardsAtom } from "@/state/board";
-import { Listbox, ListboxItem } from "@nextui-org/listbox";
+import { useToast } from "@/hooks/use-toast";
+import { boardsAtom, deleteBoardAtom } from "@/state/board";
+import { DeleteRegular, EditRegular } from "@fluentui/react-icons";
 import { useDisclosure } from "@nextui-org/modal";
 import { useAtom, useAtomValue } from "jotai";
-import ViewEdit from "./viewedit";
-import { Button } from "../ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import {EditRegular} from "@fluentui/react-icons"
+import { useEffect, useState } from "react";
+import ViewEdit from "./viewedit";
 export default function List() {
     const currentBoards = useAtomValue(boardsAtom)
     const [selected, setSelected] = useState<number | null>(null)
@@ -17,24 +15,30 @@ export default function List() {
             <SingleBoard board={board} onEditOpenChange={(isOpen) => {
                 if (isOpen) setSelected(board.id)
                 else setSelected(null)
-            }} />
+            }}/>
         </li>)}
     </ul>
 }
 function SingleBoard({ board, onEditOpenChange }: { board: { id:string,title:string,validTill:string }, onEditOpenChange: (isOpen: boolean) => void }) {
     const { toast } = useToast()
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
+    const [,deleteBoard] = useAtom(deleteBoardAtom)
+
     useEffect(() => {
         onEditOpenChange(isOpen)
     }, [isOpen])
     return <>
-        <Link href={`/board/${board.id}`}className="p-1 flex flex-row items-center justify-left">
+        <Link href={`/board/${board.id}`}className="p-1 flex flex-row items-center justify-left gap-2">
             <div className="flex flex-row items-center justify-left gap-3 grow">
                 <div className="text-xl">{board.title}</div>
             </div>
             <EditRegular onClick={(e)=>{
                 e.preventDefault()
                 onOpen()
+            }}/>
+            <DeleteRegular onClick={(e)=>{
+                e.preventDefault()
+                deleteBoard(board)
             }}/>
         </Link>
         <ViewEdit board={board} isOpen={isOpen} onOpenChange={onOpenChange} />

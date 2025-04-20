@@ -1,4 +1,4 @@
-import { createBoard, CreateBoardPayload, deleteBoard, updateBoard, UpdateBoardPayload } from "@/services/board";
+import { createBoard, CreateBoardPayload, deleteBoard, RemoveBoardPayload, updateBoard, UpdateBoardPayload } from "@/services/board";
 import { atom } from "jotai";
 
 export const boardsAtom = atom<Record<string,any>>({})
@@ -24,11 +24,10 @@ export const updateBoardAtom = atom(null, async (get, set, payload: UpdateBoardP
     set(boardsAtom, boardsVal)
     return response
 })
-export const deleteBoardAtom = atom(null, async (get, set, payload: { id: string }) => {
+export const deleteBoardAtom = atom(null, async (get, set, payload: RemoveBoardPayload ) => {
     const board = await deleteBoard(payload.id)
     const boardsVal={...get(boardsAtom)}
     delete boardsVal[payload.id]
     set(boardsAtom, boardsVal)
     return board
-
 })

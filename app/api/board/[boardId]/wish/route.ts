@@ -1,4 +1,5 @@
-import { createWish, getBoard, getBoardShallow } from "@/app/db/board"
+import { createWish, getBoardShallow } from "@/app/db/board"
+import { deleteBoard } from "@/services/board"
 import { NextResponse } from "next/server"
 
 export async function POST(req: Request, { params }: { params: Promise<{ boardId: string }> }) {
@@ -16,7 +17,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ boardId
             }
 
         } else {
-            return NextResponse.json({ "message": "Not found", data: "board not found" }, { status: 201 })
+            return NextResponse.json({ "message": "Not found", data: "board not found" }, { status: 404 })
         }
 
     } catch (e) {

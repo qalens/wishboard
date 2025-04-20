@@ -10,6 +10,19 @@ export async function createBoard(title: string, createdById: string, validTill:
         data
     })
 }
+export async function deleteBoard( id: string) {
+    const data = {
+        id
+    }
+    await prisma.wish.deleteMany({
+        where:{
+            boardId:id
+        }
+    })
+    return prisma.board.delete({
+        where:data
+    })
+}
 export async function updateBoard(id: string, createdById: string, title?: string, validTill?: string) {
     const data = {
         title,
@@ -24,7 +37,6 @@ export async function updateBoard(id: string, createdById: string, title?: strin
     })
 }
 export async function getBoard(id: string) {
-
     return prisma.board.findFirst({
         where: {
             id
