@@ -6,6 +6,7 @@ import { useDisclosure } from "@nextui-org/modal";
 import { useAtom, useAtomValue } from "jotai";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
 import ViewEdit from "./viewedit";
 export default function List() {
     const currentBoards = useAtomValue(boardsAtom)
@@ -15,31 +16,36 @@ export default function List() {
             <SingleBoard board={board} onEditOpenChange={(isOpen) => {
                 if (isOpen) setSelected(board.id)
                 else setSelected(null)
-            }}/>
+            }} />
         </li>)}
     </ul>
 }
-function SingleBoard({ board, onEditOpenChange }: { board: { id:string,title:string,validTill:string }, onEditOpenChange: (isOpen: boolean) => void }) {
+function SingleBoard({ board, onEditOpenChange }: { board: { id: string, title: string, validTill: string }, onEditOpenChange: (isOpen: boolean) => void }) {
     const { toast } = useToast()
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
-    const [,deleteBoard] = useAtom(deleteBoardAtom)
+    const [, deleteBoard] = useAtom(deleteBoardAtom)
 
     useEffect(() => {
         onEditOpenChange(isOpen)
     }, [isOpen])
     return <>
-        <Link href={`/board/${board.id}`}className="p-1 flex flex-row items-center justify-left gap-2">
+        <Link href={`/board/${board.id}`} className="p-1 flex flex-row items-center justify-left gap-2">
             <div className="flex flex-row items-center justify-left gap-3 grow">
                 <div className="text-xl">{board.title}</div>
             </div>
-            <EditRegular onClick={(e)=>{
+            <Button aria-label="Edit" variant="outline" size="icon" onClick={(e) => {
                 e.preventDefault()
                 onOpen()
-            }}/>
-            <DeleteRegular onClick={(e)=>{
+            }}>
+                <EditRegular/>
+            </Button>
+            <Button aria-label="Delete" variant="outline" size="icon" onClick={(e) => {
                 e.preventDefault()
                 deleteBoard(board)
-            }}/>
+            }}>
+                <DeleteRegular />
+            </Button>
+
         </Link>
         <ViewEdit board={board} isOpen={isOpen} onOpenChange={onOpenChange} />
     </>
